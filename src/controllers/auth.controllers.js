@@ -1,40 +1,60 @@
-import userModel from "../models/user.models";
-import bcrypt from "bcryptjs";
-import {jsonwebtoken} from "jsonwebtoken"
+import userModel from "../models/user.models.js"
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 
 /**
  * @name registerUserController
- * @description register a new user, expects username, email and password in the request
+ * @description register a new user
  * @access Public
  */
-async function registerUserController(req, res){
-    const {name, email, password} = req.body
 
-    if(!name || !email || !password){
+async function registerUserController(req, res) {
+
+    const { name, email, password } = req.body
+
+    if (!name || !email || !password) {
         return res.status(400).json({
-            message: "Please provide a name, an email and a password"
+            message: "Please provide name, email and password"
         })
     }
 
-    const isUserExists = await userModel.findOne(
-        {
-            $or:[{userName}, {email}]
-        }
-    )
-    if(isUserExists){
+    const isUserExists = await userModel.findOne({
+        $or: [{ name }, { email }]
+    })
+
+    if (isUserExists) {
         return res.status(400).json({
-            message: "Account exists with this email address or username"
+            message: "Account already exists with this email or username"
         })
     }
-    const hash = await bcrypt.hash({password, 10})
-    const user = await userModel.create(
-        {
-            userName,
-            email,
-            password: hash
-        }
+
+    const hash = await bcrypt.hash(password, 10)
+
+    const user = await userModel.create({
+        name,
+        email,
+        password: hash
+    })
+
+    const token = jwt.sign(
+        { id: user._id, name: user.name },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
     )
-    const token = 
+
+    res.cookie("token", token)
+
+    res.status(201).json({
+        message: "User registered successfully",
+        user: {
+            id: user._id,
+            name: user.name,
+            email: user.email
+        }
+    })
 }
 
-export {registerUserController}
+
+
+
+export { registerUserController }
