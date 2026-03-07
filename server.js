@@ -10,7 +10,6 @@ connectDb()
 const mongodb_uri = process.env.MONGODB_URI
 const PORT = process.env.PORT || 5000
 
-console.log(mongodb_uri);
 
 
 app.listen(PORT, () => {
