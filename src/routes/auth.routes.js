@@ -1,5 +1,5 @@
 import express from "express"
-import { loginController, registerUserController } from "../controllers/auth.controllers.js"
+import { loginUserController, registerUserController, logoutUserController } from "../controllers/auth.controllers.js"
 
 const authRouter = express.Router()
 
@@ -17,6 +17,14 @@ authRouter.post("/register", registerUserController)
  * @access Public
  */
 
-authRouter.post("/login", loginController)
+authRouter.post("/login", loginUserController)
+
+/**
+ * @route GET /api/auth/logout
+ * @description clear the token from user cookie and add the token in blacklist
+ * @access user
+ */
+
+authRouter.get('/logout', logoutUserController)
 
 export default authRouter
