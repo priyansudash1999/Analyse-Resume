@@ -83,7 +83,7 @@ async function loginUserController(req, res){
         process.env.JWT_SECRET,
         {expiresIn: "1d"}
     )
-    console.log(token);
+    // console.log(token);
     
 
     res.cookie("token", token)
@@ -118,4 +118,15 @@ async function logoutUserController(req, res) {
     });
 }
 
-export { registerUserController, loginUserController, logoutUserController }
+async function getmeController(req, res){
+    const user = await userModel.findById(req.user.id)
+    res.status(200).json({
+        user:{
+            id: user._id,
+            username: user.username,
+            email:user.email
+        }
+    })
+}
+
+export { registerUserController, loginUserController, logoutUserController, getmeController }
