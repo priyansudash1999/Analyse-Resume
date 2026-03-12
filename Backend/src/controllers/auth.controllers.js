@@ -86,7 +86,11 @@ async function loginUserController(req, res){
     // console.log(token);
     
 
-    res.cookie("token", token)
+    res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: false
+    })
     res.status(200).json({
         message: "User loggedin Successfully",
         user:{

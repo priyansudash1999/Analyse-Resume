@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../services/auth.context";
-import {login, register, logout, getme} from "../services/auth.api"
+import {login, register, logout, getme} from "../services/auth.api.js"
 
 export const useAuth = () => {
     const context = useContext(AuthContext)
@@ -11,6 +11,7 @@ export const useAuth = () => {
         try {
             const data = await login({email, password})
             setUser(data.user)
+            // localStorage.setItem("user", data.user)
         } catch (error) {
             console.error(error);      
         }
