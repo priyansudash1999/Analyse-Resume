@@ -1,17 +1,18 @@
-import express from "express"
 import dotenv from "dotenv";
-import app from "./src/app.js"
+
+dotenv.config({ path: "./.env" });
+
+import app from "./src/app.js";
 import connectDb from "./src/config/db.js";
+import invokeGeminiAI from "./src/services/ai.services.js";
 
-dotenv.config();
+// console.log("API KEY:", process.env.GOOGLE_API_KEY);
 
-connectDb()
+connectDb();
+invokeGeminiAI();
 
-const mongodb_uri = process.env.MONGODB_URI
-const PORT = process.env.PORT || 5000
-
-
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`)
-})
+  console.log(`Server is running on ${PORT}`);
+});
