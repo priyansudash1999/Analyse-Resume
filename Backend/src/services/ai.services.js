@@ -1,14 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
-
-import { GoogleGenAI } from "@google/genai";
+import OpenAI from "openai"
 import {z} from "zod"
 import {zodToJsonSchema} from "zod-to-json-schema"
 import { resume, selfDesc, jobDesc } from "./temp.js";
 
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GOOGLE_API_KEY
+const ai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 // const invokeGeminiAI = async () => {
@@ -56,13 +55,9 @@ async function generateReport() {
     - technicalQues (at least 5)
     - behaviouralQues (at least 3)
     - skillGaps (with severity)
-    - preparationPlan (IMPORTANT: create a minimum 5-day detailed plan)
+    - preparationPlan (minimum 5-day plan)
 
-    For preparationPlan:
-    - Each day must have:
-      - day number
-      - focus
-      - at least 3 tasks
+    Return ONLY valid JSON.
 
     Resume:
     ${resume}
@@ -73,15 +68,27 @@ async function generateReport() {
     Job Description:
     ${jobDesc}
     `;
-  const res = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: prompt,
-    config:{
-      responseMimeType: "application/json",
-      responseJsonSchema: zodToJsonSchema(interviewReportSchema)
+
+  const response = await ai.chat.completions.create({
+    model: "gpt-4o-mini", // fast & cheap
+    messages: [
+      {
+        role: "system",
+        content: "You are an expert interview preparation assistant. Always return valid JSON."
+      },
+      {
+        role: "user",
+        content: prompt
+      }
+    ],
+    response_format: {
+      type: "json_object"
     }
-  })
-  console.log(JSON.parse(res.text));
+  });
+
+  const data = response.choices[0].message.content;
+
+  console.log(JSON.parse(data));
 }
 
 export default generateReport;
