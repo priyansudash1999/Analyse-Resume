@@ -88,7 +88,7 @@ async function generateReport() {
 
   const data = response.choices[0].message.content;
 
-  console.log(JSON.parse(data));
+  return JSON.parse(data)
 }
 
 export default generateReport;

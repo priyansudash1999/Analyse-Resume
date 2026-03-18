@@ -5,15 +5,11 @@ dotenv.config({ path: "./.env" });
 import app from "./src/app.js";
 import connectDb from "./src/config/db.js";
 import invokeGeminiAI from "./src/services/ai.services.js";
-import {resume, selfDesc, jobDesc} from "./src/services/temp.js"
-import generateReport from "./src/services/ai.services.js"
 
 // console.log("API KEY:", process.env.GOOGLE_API_KEY);
 
 connectDb();
 invokeGeminiAI();
-
-generateReport({resume,selfDesc,jobDesc})
 
 const PORT = process.env.PORT || 5000;
 
