@@ -6,8 +6,7 @@ const Home = () => {
     <main class="home">
         <div class="left">
             <div class="section-header">
-            <h2>Job Description</h2>
-            <p>Paste the job description to analyze</p>
+                <h2>Job Description</h2>
             </div>
 
             <textarea placeholder="Paste job description here..."></textarea>
@@ -15,17 +14,16 @@ const Home = () => {
 
         <div class="right">
             <div class="section-header">
-            <h2>Candidate Details</h2>
-            <p>Provide your details</p>
+                <h2>Candidate Details</h2>
             </div>
-            
+
             <div class="input-grp">
-            <label>Upload Resume</label>
+                <label>Upload Resume</label>
             <div class="upload-box">
                 <input type="file" accept=".pdf" />
                 <span>Click to upload or drag PDF</span>
             </div>
-            </div>
+        </div>
 
             <div class="input-grp">
             <label>Self Description</label>
