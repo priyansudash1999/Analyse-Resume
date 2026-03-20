@@ -65,6 +65,7 @@ async function generateReport() {
       }
     ],
     "behaviouralQues": [...],
+    "skillgaps":[...],
     "preparationPlan": [
       {
         "day": number,
