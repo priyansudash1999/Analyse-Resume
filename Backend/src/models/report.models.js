@@ -93,7 +93,11 @@ const reportSchema = new mongoose.Schema(
         techinicalQues: [techinicalQuesSchema],
         behaviouralQues: [behaviouralQuestSchema],
         skillGaps: [skillGapsSchema],
-        preparationPlan: [preparationPlanSchema]
+        preparationPlan: [preparationPlanSchema],
+        user:{
+            type: mongoose.Schema.Types.ObjectID,
+            ref: "users"
+        }
     },{
         timestamps: true
     }

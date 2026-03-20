@@ -48,26 +48,46 @@ const interviewReportSchema = z.object({
 
 async function generateReport() {
   const prompt = `
-    Generate a detailed interview report in JSON format.
+  Generate a detailed interview report in JSON format.
 
-    Include ALL of the following:
-    - matchScore (0–100)
-    - technicalQues (at least 5)
-    - behaviouralQues (at least 3)
-    - skillGaps (with severity)
-    - preparationPlan (minimum 5-day plan)
+  STRICT RULES:
+  - Return ONLY valid JSON
+  - Do NOT include resume or job description in output
 
-    Return ONLY valid JSON.
+  Structure:
+  {
+    "matchScore": number,
+    "technicalQues": [
+      {
+        "question": string,
+        "intention": string,
+        "answer": string
+      }
+    ],
+    "behaviouralQues": [...],
+    "preparationPlan": [
+      {
+        "day": number,
+        "focus": string,
+        "tasks": [string]
+      }
+    ]
+  }
 
-    Resume:
-    ${resume}
+  Include:
+  - minimum 5 technical questions
+  - minimum 3 behavioural questions
+  - minimum 5-day preparation plan
 
-    Self Description:
-    ${selfDesc}
+  Resume:
+  ${resume}
 
-    Job Description:
-    ${jobDesc}
-    `;
+  Self Description:
+  ${selfDesc}
+
+  Job Description:
+  ${jobDesc}
+  `;
 
   const response = await ai.chat.completions.create({
     model: "gpt-4o-mini", // fast & cheap

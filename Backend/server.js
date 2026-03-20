@@ -6,8 +6,6 @@ import app from "./src/app.js";
 import connectDb from "./src/config/db.js";
 import invokeGeminiAI from "./src/services/ai.services.js";
 
-// console.log("API KEY:", process.env.GOOGLE_API_KEY);
-
 connectDb();
 invokeGeminiAI();
 
